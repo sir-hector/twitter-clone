@@ -1,10 +1,12 @@
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import useLoginModel from "@/hooks/useLoginModel";
+import useRegisterModal from "@/hooks/useRegisterModal";
 import { useCallback, useState } from "react";
 
 export const LoginModal = () => {
   const loginModal = useLoginModel();
+  const registerModal = useRegisterModal();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +25,16 @@ export const LoginModal = () => {
     }
   }, [loginModal])
 
+  const onToggle = useCallback(() => {
+    console.log('clik')
+    if(isLoading){
+      return;
+    }
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [registerModal, loginModal, isLoading])
+
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
         <Input
@@ -40,6 +52,15 @@ export const LoginModal = () => {
     </div>
   )
 
+  const footerContent =(
+    <div className="text-neutral-400 text-center mt-4">
+      <p>
+        First time using Twitter?
+          <span className="text-white cursor-pointer hover:underline" onClick={onToggle}> Create an account</span>
+      </p>
+    </div>
+  )
+
   return <Modal 
     disabled={isLoading}
     isOpen={loginModal.isOpen}
@@ -48,6 +69,7 @@ export const LoginModal = () => {
     onClose={loginModal.onClose}
     onSubmit={onSubmit}
     body={bodyContent}
+    footer={footerContent}
   />;
 };
 
