@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
+import ImageUploader from "@/components/ImageUploader";
 
 const EditModal = () => {
   const { data: currentUser } = useCurrentUser();
@@ -36,6 +37,8 @@ const EditModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
+        <ImageUploader value={profileImage} disabled={isLoading} onChange={(image) => setProfileImage(image)} label="Upload profile image"/>
+        <ImageUploader value={coverImage} disabled={isLoading} onChange={(image) => setCoverImage(image)} label="Upload cover image"/>
         <Input placeholder="Name" onChange={(e) => setName(e.target.value)} value={name} disabled={isLoading}/>
         <Input placeholder="Username" onChange={(e) => setUsername(e.target.value)} value={username} disabled={isLoading}/>
         <Input placeholder="Bio" onChange={(e) => setBio(e.target.value)} value={bio} disabled={isLoading}/>
