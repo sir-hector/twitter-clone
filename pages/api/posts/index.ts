@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(200).json(post);
         }
         if(req.method === 'GET') {
-            const {userId} = req.body;
+            const {userId} = req.query;
             let posts;
 
             if(userId && typeof userId === 'string'){
