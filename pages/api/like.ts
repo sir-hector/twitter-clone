@@ -10,7 +10,8 @@ export default async function handler(
     return res.status(405).end();
   }
   try {
-    const { postId } = req.body;
+    const postId = req.method === 'POST' ? req.body.postId : req.query.postId;
+
     const {currentUser} = await serverAuth(req, res);
 
     if(!postId || typeof postId !== 'string'){
@@ -49,6 +50,6 @@ export default async function handler(
     return res.status(200).json(updatedPost)
 
   } catch (error) {
-    return res.status(400).end();
+    return res.status(400).end(error);
   }
 }
