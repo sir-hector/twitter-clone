@@ -12,7 +12,7 @@ export default async function handler(
   try {
     const { postId } = req.query;
 
-    if (!postId || postId !== "string") {
+    if (!postId || typeof postId !== "string") {
       throw new Error("Invalid Id");
     }
 
