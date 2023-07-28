@@ -26,7 +26,8 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
-      await axios.post("api/posts", { body });
+      const url = isComment ? `/api/comments?postId=${postId}` : '/api/posts'
+      await axios.post(url, { body });
       toast.success("Tweet created");
       setBody("");
       mutatePosts("");
@@ -35,7 +36,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [body, mutatePosts]);
+  }, [body, mutatePosts, isComment, postId]);
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">
@@ -74,7 +75,6 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
           </div>
         </div>
       )}
-      ś
     </div>
   );
 };
