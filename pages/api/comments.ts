@@ -26,6 +26,33 @@ export default async function handler(
         }
     });
 
+    try {
+      const post = await prisma.post.findUnique({
+        where: {
+          id: postId
+        }
+      })
+      if(post?.id){
+        await prisma.notification.create({
+          data: {
+            body: 'Someone replied to your tweet tweet',
+            userId: post.userId
+          }
+        })
+
+        await prisma.user.update({
+          where: {
+            id: post.userId
+          },
+          data: {
+            hasNotificatiom: true
+          }
+        })
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     return res.status(200).json(comment);
 
   } catch (error) {
